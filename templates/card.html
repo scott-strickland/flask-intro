@@ -1,31 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Flash Card</title>
-</head>
+{% block title %}Card{% endblock %}
 
-<body>
-    <h1>Flash Card</h1>
-    Question: {{ card.question }}<br>
-    Answer: {{ card.answer }}
-    <p>
-        <button>
-            <a href="{{ url_for('welcome') }}">Home</a>"
-        </button>
-        {% if index < max_index %} <button>
-            <a href="{{ url_for('card_view', index=index + 1) }}">Next card</a>
-            </button>
-            {% else %}
-            <button>
-                <a href="{{ url_for('card_view', index=0) }}">Start Over</a>
-            </button>
-            {% endif %}
-    </p>
+{% block content %}
+<h1>Flash Card</h1>
+Question: {{ card.question }}<br>
+Answer: {{ card.answer }}
+<p>
     <button>
-        <a href="{{ url_for('remove_card', index=index) }}">Remove this card</a>
+        <a href="{{ url_for('welcome') }}">Home</a>"
     </button>
-</body>
-
-</html>
+    {% if index < max_index %} <button>
+        <a href="{{ url_for('card_view', index=index + 1) }}">Next card</a>
+        </button>
+        {% else %}
+        <button>
+            <a href="{{ url_for('card_view', index=0) }}">Start Over</a>
+        </button>
+        {% endif %}
+</p>
+<button>
+    <a href="{{ url_for('remove_card', index=index) }}">Remove this card</a>
+</button>
+{% endblock %}
