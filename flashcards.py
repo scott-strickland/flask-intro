@@ -6,16 +6,16 @@ app = Flask(__name__)
 
 @app.route("/")
 def welcome():
-    return render_template(
-        "welcome.html",
-        cards=db)
+    return render_template("welcome.html", cards=db)
 
 
 @app.route("/card/<int:index>")
 def card_view(index):
     try:
         card = db[index]
-        return render_template("card.html", card=card, index=index, max_index=len(db)-1)
+        return render_template(
+            "card.html", card=card, index=index, max_index=len(db) - 1
+        )
     except IndexError:
         abort(404)
 
@@ -37,26 +37,25 @@ def api_card_detail(index):
 def add_card():
     if request.method == "POST":
         # form has been submitted, process data
-        card = {
-            "question": request.form['question'],
-            "answer": request.form['answer']
-        }
+        card = {"question": request.form["question"], "answer": request.form["answer"]}
         db.append(card)
         save_db()
-        return redirect(url_for("card_view", index=len(db)-1))
+        return redirect(url_for("card_view", index=len(db) - 1))
     else:
         # form hasn't been submitted and wants to retrieve form
         return render_template("add_card.html")
 
 
-@app.route("/remove_card/<int:index>", methods=['GET', 'POST'])
+@app.route("/remove_card/<int:index>", methods=["GET", "POST"])
 def remove_card(index):
     try:
         if request.method == "POST":
             del db[index]
             save_db()
-            return redirect(url_for('welcome'))
+            return redirect(url_for("welcome"))
         else:
-            return render_template("remove_card.html", card=db[index], methods=['GET', 'POST'])
+            return render_template(
+                "remove_card.html", card=db[index], methods=["GET", "POST"]
+            )
     except IndexError:
         abort(404)
